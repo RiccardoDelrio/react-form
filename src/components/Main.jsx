@@ -4,6 +4,7 @@ export default function Main() {
     const [tasklist, setTasklist] = useState(["task1", "task2", "task3"])
     const [task, setTask] = useState("")
     const [editMode, setEditMode] = useState(null)
+    const [editTask, setEditTask] = useState("")
     const handleSubmit = (e) => {
         e.preventDefault()
         if (task === "") {
@@ -24,13 +25,27 @@ export default function Main() {
                 id="newTask"
                 className=" input-group-text"
                 placeholder="Modifica la task"
+                value={editTask}
+                onChange={(e) => setEditTask(e.target.value)}
 
             />
         )
     }
     const changeEditMode = (index) => {
         setEditMode(index)
+
     }
+    const edited = [...tasklist]
+    const handleSave = (index) => {
+        edited.splice(index, 1, editTask)
+        setTasklist(edited)
+        setEditMode(null)
+
+    }
+    console.log(edited);
+
+    console.log(editTask);
+
     return (
         <>
             <main>
@@ -63,9 +78,14 @@ export default function Main() {
                                     tasklist.map((item, index) => (
                                         <>
                                             <div key={index} className="item d-flex justify-content-between  ">
-                                                <div className="text_container">{editMode === index ? markupInput() : item}</div>
+                                                <div className="text_container">{editMode === index ? markupInput(index) : item}</div>
                                                 <div className="btncontainer mb-3 ">
-                                                    <button className="btn btn-primary me-2 " onClick={() => { changeEditMode(index) }}> Edit</button>
+                                                    {editMode === index ?
+                                                        (<button className="btn btn-primary me-2 " onClick={(e) => { handleSave(index) }}>save</button>)
+
+                                                        :
+                                                        <button className="btn btn-primary me-2 " onClick={() => { changeEditMode(index) }}>Edit</button>
+                                                    }
                                                     <button className="btn btn-primary"
                                                         onClick={del}> Delete</button>
                                                 </div>
