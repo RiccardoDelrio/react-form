@@ -3,7 +3,7 @@ export default function Main() {
 
     const [tasklist, setTasklist] = useState(["task1", "task2", "task3"])
     const [task, setTask] = useState("")
-
+    const [editMode, setEditMode] = useState(null)
     const handleSubmit = (e) => {
         e.preventDefault()
         if (task === "") {
@@ -16,6 +16,20 @@ export default function Main() {
         const newTasklist = [...tasklist]
         newTasklist.splice(index, 1)
         setTasklist(newTasklist)
+    }
+    const markupInput = () => {
+        return (
+            <input type="text"
+                name="newTask"
+                id="newTask"
+                className=" input-group-text"
+                placeholder="Modifica la task"
+
+            />
+        )
+    }
+    const changeEditMode = (index) => {
+        setEditMode(index)
     }
     return (
         <>
@@ -32,7 +46,8 @@ export default function Main() {
                                         className=" input-group-text"
                                         placeholder="Inserisci la nuova task"
                                         value={task}
-                                        onChange={(e) => setTask(e.target.value)} />
+                                        onChange={(e) => setTask(e.target.value)}
+                                    />
                                     <button
                                         type="submit"
                                         className="btn btn-primary "
@@ -46,20 +61,20 @@ export default function Main() {
 
                                 {
                                     tasklist.map((item, index) => (
+                                        <>
+                                            <div key={index} className="item d-flex justify-content-between  ">
+                                                <div className="text_container">{editMode === index ? markupInput() : item}</div>
+                                                <div className="btncontainer mb-3 ">
+                                                    <button className="btn btn-primary me-2 " onClick={() => { changeEditMode(index) }}> Edit</button>
+                                                    <button className="btn btn-primary"
+                                                        onClick={del}> Delete</button>
+                                                </div>
 
-                                        <div key={index} className="item d-flex justify-content-between  ">
-                                            <div className="text_container">{item}</div>
-                                            <div className="btncontainer mb-3 ">
-                                                <button className="btn btn-primary me-2 ">Edit</button>
-                                                <button className="btn btn-primary"
-                                                    onClick={del}
-                                                > Delete</button>
-                                            </div>
-                                        </div>
+                                            </div >
 
+
+                                        </>
                                     ))
-
-
 
                                 }
                             </div>
