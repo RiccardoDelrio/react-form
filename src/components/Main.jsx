@@ -1,7 +1,7 @@
 import { useState } from "react"
 export default function Main() {
 
-    const [tasklist, setTasklist] = useState([])
+    const [tasklist, setTasklist] = useState(["task1", "task2", "task3"])
     const [task, setTask] = useState("")
 
     const handleSubmit = (e) => {
@@ -11,6 +11,11 @@ export default function Main() {
         } else {
             setTasklist([...tasklist, task])
         }
+    }
+    const del = (index) => {
+        const newTasklist = [...tasklist]
+        newTasklist.splice(index, 1)
+        setTasklist(newTasklist)
     }
     return (
         <>
@@ -31,7 +36,6 @@ export default function Main() {
                                     <button
                                         type="submit"
                                         className="btn btn-primary "
-
                                     >Add Task</button>
                                 </div>
 
@@ -46,8 +50,10 @@ export default function Main() {
                                         <div key={index} className="item d-flex justify-content-between  ">
                                             <div className="text_container">{item}</div>
                                             <div className="btncontainer mb-3 ">
-                                                <div className="btn btn-primary me-2 ">Delete</div>
-                                                <div className="btn btn-primary ">Edit</div>
+                                                <button className="btn btn-primary me-2 ">Edit</button>
+                                                <button className="btn btn-primary"
+                                                    onClick={del}
+                                                > Delete</button>
                                             </div>
                                         </div>
 
@@ -60,7 +66,7 @@ export default function Main() {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main >
         </>
 
 
