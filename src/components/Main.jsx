@@ -12,13 +12,14 @@ export default function Main() {
         } else {
             setTasklist([...tasklist, task])
         }
+        setTask("")
     }
     const del = (index) => {
         const newTasklist = [...tasklist]
         newTasklist.splice(index, 1)
         setTasklist(newTasklist)
     }
-    const markupInput = () => {
+    const markupInput = (index) => {
         return (
             <input type="text"
                 name="newTask"
@@ -33,13 +34,18 @@ export default function Main() {
     }
     const changeEditMode = (index) => {
         setEditMode(index)
+        setEditTask(tasklist[index])
 
     }
     const edited = [...tasklist]
+
     const handleSave = (index) => {
-        edited.splice(index, 1, editTask)
+
+        //edited.splice(index, 1, editTask)
+        edited[index] = editTask
         setTasklist(edited)
         setEditMode(null)
+        setEditTask("")
 
     }
     console.log(edited);
